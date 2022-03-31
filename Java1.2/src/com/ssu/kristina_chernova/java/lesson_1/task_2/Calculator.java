@@ -61,7 +61,7 @@ public class Calculator {
         enterValues();
         if (secondNumber != 0) {
             System.out.printf("Division Result (integer) : %d\n", firstNumber / secondNumber);
-            System.out.printf("Division Result (integer) : %3.2f\n", (firstNumber * 1.0) / secondNumber);
+            System.out.printf("Division Result (float) : %3.2f\n", (firstNumber * 1.0) / secondNumber);
         }
         else {
             System.out.println("Divide by zero exception");
