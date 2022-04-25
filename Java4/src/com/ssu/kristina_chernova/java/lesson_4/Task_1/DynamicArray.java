@@ -1,6 +1,11 @@
 package com.ssu.kristina_chernova.java.lesson_4.Task_1;
 
+import java.util.*;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DynamicArray<T> implements Iterable<T> {
     private Object[] array;
