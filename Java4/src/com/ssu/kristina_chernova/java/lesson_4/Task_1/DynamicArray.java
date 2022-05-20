@@ -1,11 +1,9 @@
 package com.ssu.kristina_chernova.java.lesson_4.Task_1;
 
 import java.util.*;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class DynamicArray<T> implements Iterable<T> {
     private Object[] array;
@@ -46,17 +44,16 @@ public class DynamicArray<T> implements Iterable<T> {
             return (T)array[index];
         }
         else {
-            System.out.println("Incorrect Index");
+            throw new IndexOutOfBoundsException(index);
         }
-        return null;
     }
 
     public void set(T t, int index){
-        if (index < length) {
+        if (index < length && t != null) {
             array[index] = t;
         }
         else {
-            System.out.println("Incorrect Index");
+            throw new IndexOutOfBoundsException(index);
         }
     }
 
@@ -68,7 +65,7 @@ public class DynamicArray<T> implements Iterable<T> {
             length -= 1;
         }
         else {
-            System.out.println("Incorrect Index");
+            throw new IndexOutOfBoundsException(index);
         }
     }
 
@@ -102,7 +99,7 @@ public class DynamicArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return (i < length && array[i] != null);
+                return (i < length);
             }
 
             //Returns the next element in the iteration.
@@ -115,6 +112,8 @@ public class DynamicArray<T> implements Iterable<T> {
                 return null;
             }
         };
+
+
     }
 }
 
@@ -141,6 +140,20 @@ class Main {
         System.out.println("toString try:");
         DynamicArray<Double> dynamicArrayDouble = new DynamicArray<Double>(3);
         dynamicArrayDouble.add(24.99);
+        dynamicArrayDouble.add(25.99);
+        dynamicArrayDouble.add(26.99);
         System.out.println(dynamicArrayDouble.toString());
+
+        Iterator<Double> iterator = dynamicArrayDouble.iterator();
+
+        // Iterator -> Spliterators -> Stream -> List
+        List<Double> result = StreamSupport.stream(
+                        Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false)
+                .map(x -> x * 2)
+                .collect(Collectors.toList());
+
+        for (double a : result){
+                System.out.println("Element: " + a + "\n");
+        }
     }
 }

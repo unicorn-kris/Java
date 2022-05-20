@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -25,12 +26,13 @@ public class Presentation {
     private void taskSerDeser(){
         String filename = "people.dat";
         // создадим список объектов, которые будем записывать
-        ArrayList<Transport> transports = new ArrayList<Transport>();
+        List<Transport> transports = new ArrayList<Transport>();
         Bus bus = new Bus();
         bus.setRepair(true);
         bus.setName("The best Bus");
         bus.setCardPay(false);
         bus.setHaveCond(true);
+        bus.setNumber(10);
         transports.add(bus);
 
         Tram tram = new Tram();
@@ -56,19 +58,22 @@ public class Presentation {
         }
 
         // десериализация в новый список
-        ArrayList<Transport> newTransports = new ArrayList<Transport>();
+        List<Transport> newTransports = new ArrayList<Transport>();
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename)))
         {
-            newTransports=((ArrayList<Transport>)ois.readObject());
+            newTransports=((List<Transport>)ois.readObject());
         }
         catch(Exception ex){
 
             System.out.println(ex.getMessage());
         }
 
-        for(Transport p : newTransports)
+        for(Transport p : newTransports){
             System.out.printf("Name: %s \t CardPay: %s \t GetRepair: %s \n", p.getName(), p.getCardPay(), p.getRepair());
+            System.out.println(newTransports.get(0).getNumber());
+        }
     }
+
 
     /*private void startApplication() throws Exception {
 

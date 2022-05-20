@@ -22,10 +22,10 @@ public class Main {
                     "4.\tCounts of files sorted by first letters\n" +
                     "0.\tExit\n");
 
-                Scanner inSc = new Scanner(System.in);
-                int choice = inSc.nextInt();
+            Scanner inSc = new Scanner(System.in);
+            int choice = inSc.nextInt();
 
-                diskAnalyzer("C:/tessa/", choice);
+            diskAnalyzer("C:/tessa/", choice);
         }
     }
 
@@ -45,16 +45,17 @@ public class Main {
                 List<PairIntString> averageSizeFind = new ArrayList<PairIntString>();
                 sizeList(directoryWay, averageSizeFind);
 
-                for (int i = 0; i < averageSizeFind.size() - 1; ++i){
-                    for (int j = 0; j < averageSizeFind.size(); ++j ){
-                        if (averageSizeFind.get(i).getSize() > averageSizeFind.get(j).getSize()){
+                for (int i = 0; i < averageSizeFind.size() - 1; ++i) {
+                    for (int j = 0; j < averageSizeFind.size(); ++j) {
+                        if (averageSizeFind.get(i).getSize() > averageSizeFind.get(j).getSize()) {
                             var current = averageSizeFind.get(i);
                             averageSizeFind.set(i, averageSizeFind.get(j));
                             averageSizeFind.set(j, current);
                         }
                     }
                 }
-                for (int i = 0; i < 5; ++i) {
+
+                for (int i = 0; i < Math.min(5, averageSizeFind.size()); ++i) {
                     PairIntString item = averageSizeFind.get(i);
                     System.out.println("Size: " + item.getSize() + " Name: " + item.getName());
                 }
@@ -82,26 +83,47 @@ public class Main {
 
         }
     }
-        public static class Pair {
+
+    public static class Pair {
         private int countFiles;
         private int countFolders;
 
-            public int getCountFiles() {return countFiles;}
-            public void setCountFiles(int newCountFiles) {countFiles = newCountFiles;}
-
-            public int getCountFolders() {return countFolders;}
-            public void setCountFolders(int newCountFolders) {countFolders = newCountFolders;}
+        public int getCountFiles() {
+            return countFiles;
         }
+
+        public void setCountFiles(int newCountFiles) {
+            countFiles = newCountFiles;
+        }
+
+        public int getCountFolders() {
+            return countFolders;
+        }
+
+        public void setCountFolders(int newCountFolders) {
+            countFolders = newCountFolders;
+        }
+    }
 
     public static class PairIntString {
         private int size;
         private String name;
 
-        public int getSize() {return size;}
-        public void setSize(int newSize) {size = newSize;}
+        public int getSize() {
+            return size;
+        }
 
-        public String getName() {return name;}
-        public void setName(String newName) {name = newName;}
+        public void setSize(int newSize) {
+            size = newSize;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String newName) {
+            name = newName;
+        }
     }
 
     public static class CountSObject {
@@ -109,14 +131,29 @@ public class Main {
         private String name;
         private String path;
 
-        public int getSize() {return size;}
-        public void setSize(int newSize) {size = newSize;}
+        public int getSize() {
+            return size;
+        }
 
-        public String getName() {return name;}
-        public void setName(String newName) {name = newName;}
+        public void setSize(int newSize) {
+            size = newSize;
+        }
 
-        public String getPath() {return path;}
-        public void setPath(String newPath) {path = newPath;}
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String newName) {
+            name = newName;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String newPath) {
+            path = newPath;
+        }
     }
 
     private static void countOfFilesAndDirectoriesWithAlphabetLettersSort(String directoryWay, Map<Character, Pair> dict) {
@@ -125,12 +162,10 @@ public class Main {
             if (f.isFile()) {
                 char firstLetter = f.getName().toLowerCase().toCharArray()[0];
 
-                if (dict.containsKey(firstLetter))
-                {
+                if (dict.containsKey(firstLetter)) {
                     Pair dictPair = dict.get(firstLetter);
                     dictPair.countFiles += 1;
-                }
-                else{
+                } else {
                     Pair newPair = new Pair();
                     newPair.setCountFiles(1);
                     newPair.setCountFolders(0);
@@ -140,12 +175,10 @@ public class Main {
             } else if (f.isDirectory()) {
                 char firstLetter = f.getName().toLowerCase().toCharArray()[0];
 
-                if (dict.containsKey(firstLetter))
-                {
+                if (dict.containsKey(firstLetter)) {
                     Pair dictPair = dict.get(firstLetter);
                     dictPair.countFolders += 1;
-                }
-                else{
+                } else {
                     Pair newPair = new Pair();
                     newPair.setCountFiles(0);
                     newPair.setCountFolders(1);
@@ -160,15 +193,18 @@ public class Main {
     private static void findFileWithMaxCountOfLetterS(String directoryWay, CountSObject file) {
         File dir = new File(directoryWay);
         //System.out.println(dir);
+        if (dir.listFiles() != null){
         for (File f : dir.listFiles()) {
             if (f.isFile()) {
                 int count = 0;
 
                 for (char element : f.getName().toLowerCase().toCharArray()) {
-                    if (element == 's') count++;
+                    if (element == 's') {
+                        count++;
+                    }
                 }
 
-                if (count > file.getSize()){
+                if (count > file.getSize()) {
                     file.setSize(count);
                     file.setName(f.getName());
                     file.setPath(f.getPath());
@@ -178,10 +214,11 @@ public class Main {
                 findFileWithMaxCountOfLetterS(f.getAbsolutePath(), file);
             }
         }
+        }
     }
 
 
-    private static void sizeList(String directoryWay,List <PairIntString> averageSizeFind) {
+    private static void sizeList(String directoryWay, List<PairIntString> averageSizeFind) {
         File dir = new File(directoryWay);
         for (File f : dir.listFiles()) {
             if (f.isFile()) {
@@ -198,17 +235,17 @@ public class Main {
         }
     }
 
-    private static int averageSize(List <PairIntString> averageSizeFind) {
+    private static int averageSize(List<PairIntString> averageSizeFind) {
         List<Integer> arrayOfInt = new ArrayList<Integer>();
-        for(PairIntString item: averageSizeFind){
+        for (PairIntString item : averageSizeFind) {
             arrayOfInt.add(item.getSize());
         }
         arrayOfInt.stream().sorted();
         int median;
         if (arrayOfInt.size() % 2 == 0)
-            median = ((int)arrayOfInt.toArray()[arrayOfInt.size()/2] + (int)arrayOfInt.toArray()[arrayOfInt.size()/2 - 1])/2;
+            median = ((int) arrayOfInt.toArray()[arrayOfInt.size() / 2] + (int) arrayOfInt.toArray()[arrayOfInt.size() / 2 - 1]) / 2;
         else
-            median = (int) arrayOfInt.toArray()[arrayOfInt.size()/2];
+            median = (int) arrayOfInt.toArray()[arrayOfInt.size() / 2];
 
         return median;
     }
